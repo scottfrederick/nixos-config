@@ -159,21 +159,18 @@ After the first login, $HOME is empty. yadm + bootstrap rebuilds it:
      - `15-shell.sh` — no-op for the apt path; **does** clone oh-my-zsh + zsh-snap into $HOME (distro-agnostic now).
      - `25-setup-repo.sh` — clones ~/.setup.
      - `30-apt-core.sh`, `40-apt-apps.sh`, `50-flatpak-apps.sh` (apt parts) — no-op on NixOS.
-     - `50-flatpak-apps.sh` (flatpak parts) — installs GIMP/Joplin/Slack/Spotify/Ferdium via `flatpak install`.
+     - `50-flatpak-apps.sh` (flatpak parts) — installs the shared set on every machine (brave, ferdium, flatseal, gimp, joplin, slack, spotify) and the home-hpone-only set (siril, wine) when `local.class = home-hpone`. Uses `flatpak install -y` so it runs unattended.
      - `60-linux-manual.sh` — installs sdkman, jetbrains-toolbox, krew into $HOME. `jetbrains-fonts.sh` skipped on NixOS (font already installed declaratively).
      - `70-scripts-repo.sh` — clones ~/.scripts.
 
 3. **Open a fresh terminal** so $PATH picks up the new SDKMAN / krew / JetBrains bins.
 
-4. **Restore flatpaks** (services.flatpak.enable is on, flatpak-repo.service registered flathub; just install the apps):
-   ```sh
-   flatpak install -y flathub \
-     com.brave.Browser com.slack.Slack com.spotify.Client \
-     net.cozic.joplin_desktop org.ferdium.Ferdium \
-     org.gimp.GIMP org.gimp.GIMP.HEIC org.siril.Siril \
-     org.winehq.Wine.DLLs.dxvk org.winehq.Wine.gecko org.winehq.Wine.mono \
-     us.zoom.Zoom org.freedesktop.Sdk.Extension.ziglang
-   ```
+4. **Flatpaks are installed by `yadm bootstrap`** (step 2 above), not manually here. The bootstrap's `50-flatpak-apps.sh` step calls `~/.setup/flatpak/<app>.sh` for each shared app and gates `siril.sh` + `wine.sh` on `local.class = home-hpone`. `wine.sh` registers the `flathub-beta` remote and installs `org.winehq.Wine` plus the DXVK/gecko/mono extensions.
+
+   Not handled by bootstrap (install manually if/when wanted):
+   - `org.gimp.GIMP.HEIC` — GIMP HEIC plugin
+   - `us.zoom.Zoom` — dropped from the restore list (user decision 2026-05-23)
+   - `org.freedesktop.Sdk.Extension.ziglang` — dropped (not needed)
 
 5. **Apply GNOME dconf settings (optional):**
    ```sh

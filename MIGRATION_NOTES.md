@@ -131,27 +131,28 @@ Source-system files captured for reference:
 
 ## Flatpaks to restore post-install
 
-17 user-facing flatpaks (source had 47 including Platform/SDK runtimes, which Flathub auto-pulls). The 2 `io.github.cosmic_utils.*` are COSMIC-only and **excluded** (target is GNOME):
+Handled by `yadm bootstrap` (`50-flatpak-apps.sh` → `~/.setup/flatpak/*.sh`). The bootstrap calls `flatpak install -y` for each app, gated by `local.class` where appropriate. `flatpak-repo.service` (from `modules/flatpak.nix`) registers Flathub on first boot, so by the time bootstrap runs the remote is already in place.
 
-```sh
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub \
-  com.brave.Browser \
-  com.slack.Slack \
-  com.spotify.Client \
-  net.cozic.joplin_desktop \
-  org.ferdium.Ferdium \
-  org.gimp.GIMP \
-  org.gimp.GIMP.HEIC \
-  org.siril.Siril \
-  org.winehq.Wine.DLLs.dxvk \
-  org.winehq.Wine.gecko \
-  org.winehq.Wine.mono \
-  us.zoom.Zoom \
-  org.freedesktop.Sdk.Extension.ziglang
-```
+**Shared (installed on every machine):**
+- `com.brave.Browser` (brave.sh)
+- `org.ferdium.Ferdium` (ferdium.sh)
+- `com.github.tchx84.Flatseal` (flatseal.sh) — flatpak permission inspector
+- `org.gimp.GIMP` (gimp.sh)
+- `net.cozic.joplin_desktop` (joplin.sh)
+- `com.slack.Slack` (slack.sh)
+- `com.spotify.Client` (spotify.sh)
 
-`flatpak-repo.service` registers Flathub on first boot. The actual installs are not declarative — run them manually after first GDM login.
+**home-hpone only:**
+- `org.siril.Siril` (siril.sh) — astrophotography stacker
+- `org.winehq.Wine` + DXVK/gecko/mono extensions (wine.sh) — registers the `flathub-beta` remote since Wine isn't in standard Flathub
+
+**Excluded (per user decision 2026-05-23):**
+- `us.zoom.Zoom` — dropped from restore list
+- `org.freedesktop.Sdk.Extension.ziglang` — dropped (not needed)
+- `io.github.cosmic_utils.*` — COSMIC-only (target is GNOME)
+
+**Not handled by bootstrap; install manually if needed:**
+- `org.gimp.GIMP.HEIC` — GIMP HEIC plugin extension
 
 ## Phase 4 validation evidence
 
