@@ -32,6 +32,11 @@
       nixosConfigurations = {
         home-hpone = mkHost ./hosts/home-hpone/default.nix;
         work-dell  = mkHost ./hosts/work-dell/default.nix;
+
+        # Test-only variant used by Phase 4 (artifacts/validation-report.json).
+        # Adds autologin + a oneshot smoketest service that writes /tmp/xchg/smoketest.txt
+        # and powers off. NOT for daily use.
+        home-hpone-smoketest = mkHost ./hosts/home-hpone/vm-smoketest.nix;
       };
     };
 }
