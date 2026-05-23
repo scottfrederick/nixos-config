@@ -10,10 +10,8 @@
 
   services.xserver.enable = true;
   services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
+  services.displayManager.gdm.enable = true;
+  # `gdm.wayland` removed in GNOME 50 (Wayland is the only supported mode now).
 
   # Source: XKBLAYOUT=us, KEYMAP=us-acentos (US international with dead keys).
   console.keyMap = "us-acentos";
@@ -34,8 +32,9 @@
 
   # GNOME's optional bits — match what the source had installed via apt.
   programs.gnome-disks.enable = true;
-  programs.file-roller.enable = true;
   programs.evince.enable = true;
+  # file-roller is now a plain package; install via environment.systemPackages.
+  environment.systemPackages = [ pkgs.file-roller ];
 
   # Excluded apps the user is unlikely to want (Pop had them as defaults; drop on a fresh GNOME).
   environment.gnome.excludePackages = with pkgs; [
