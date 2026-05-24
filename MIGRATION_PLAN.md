@@ -6,40 +6,7 @@ Concrete steps to get this flake running on a new machine. Read `MIGRATION_NOTES
 
 Some of these are one-time prep that should happen on the **source** (current Pop!_OS) machine while it's still your daily driver.
 
-- [ ] **Commit and push pending yadm changes.** Phase 1-3 of the migration touched three of your yadm-tracked files:
-  ```sh
-  cd && yadm status
-  # Should show: M .config/yadm/bootstrap.d/15-shell.sh
-  #              M .config/yadm/bootstrap.d/50-flatpak-apps.sh
-  #              M .config/yadm/bootstrap.d/60-linux-manual.sh
-  yadm add -u
-  yadm commit -m "bootstrap: make flatpak/shell/linux-manual steps NixOS-aware"
-  yadm push
-  ```
-  Until you push, a fresh `yadm clone` on the new machine will get the old (apt-only) bootstrap.
-
-- [ ] **Commit and push `~/.setup/install-yadm-nixos.sh`.** It's new and currently untracked in the setup repo:
-  ```sh
-  cd ~/.setup && git status   # shows: ?? install-yadm-nixos.sh
-  git add install-yadm-nixos.sh
-  git commit -m "Add NixOS pre-bootstrap counterpart to install-yadm.sh"
-  git push
-  ```
-
-- [ ] **Push this flake somewhere you can clone from on the new machine.** Right now it lives at `~/nixos-config/` on the source box as a local git repo with 3 commits:
-  ```
-  99b5659 phase 4: flatpak-repo network-online dep + smoketest harness fixes
-  f68e024 phase 4: fixes from flake check
-  8352ead phase 3 generated flake
-  ```
-  Create `github.com/scottfrederick/nixos-config` (or similar), then on this box:
-  ```sh
-  cd ~/nixos-config
-  git remote add origin git@github.com:scottfrederick/nixos-config.git
-  git push -u origin main
-  ```
-
-- [ ] **(Recommended)** Boot the smoketest VM image one more time on this machine so you've seen it work before depending on it. The image already exists at `/tmp/home-hpone-vm-smoketest/bin/run-home-hpone-vm`; otherwise rebuild with:
+- [ ] Boot the smoketest VM image on this machine so you've seen it work before depending on it. Build it with:
   ```sh
   cd ~/nixos-config
   nix --extra-experimental-features 'nix-command flakes' build \
@@ -167,35 +134,12 @@ After the first login, $HOME is empty. yadm + bootstrap rebuilds it:
 
 4. **Flatpaks are installed by `yadm bootstrap`** (step 2 above), not manually here. The bootstrap's `50-flatpak-apps.sh` step calls `~/.setup/flatpak/<app>.sh` for each shared app and gates `siril.sh` + `wine.sh` on `local.class = home-hpone`. `wine.sh` registers the `flathub-beta` remote and installs `org.winehq.Wine` plus the DXVK/gecko/mono extensions.
 
-   Not handled by bootstrap (install manually if/when wanted):
-   - `org.gimp.GIMP.HEIC` — GIMP HEIC plugin
-   - `us.zoom.Zoom` — dropped from the restore list (user decision 2026-05-23)
-   - `org.freedesktop.Sdk.Extension.ziglang` — dropped (not needed)
-
 5. **Apply GNOME dconf settings (optional):**
    ```sh
    cd ~/nixos-config-artifacts    # wherever you copied artifacts/
    dconf load / < raw/desktop_dconf.ini
    ```
    Skip if you'd rather start fresh.
-
-6. **Restore NetworkManager profiles (optional, if you want WiFi creds preserved):**
-   On the source machine: `sudo tar czf /tmp/nm.tar.gz -C /etc/NetworkManager/system-connections .`
-   On the new machine: `sudo tar xzf /tmp/nm.tar.gz -C /etc/NetworkManager/system-connections && sudo systemctl restart NetworkManager`
-
-7. **Install Flox (deferred — not in the flake):**
-   Follow current instructions at `flox.dev`.
-
-8. **Re-initialize SDKMAN candidates:**
-   ```sh
-   sdk install java       # picks default; or `sdk install java <version>`
-   sdk install maven
-   ```
-
-9. **Re-initialize krew plugins** if you used any:
-   ```sh
-   kubectl krew install <plugin>
-   ```
 
 ## Stage 4 — verify
 
@@ -253,9 +197,3 @@ If something goes wrong post-cutover:
 - **From a running NixOS:** `nixos-rebuild switch --rollback` switches the running system back one generation without rebooting.
 - **From a borked first install:** the source Pop machine is still your fallback until you wipe it. Do not wipe the source machine until you've used the new NixOS install for at least a week.
 
-## What you don't need to do
-
-- Don't migrate `/nix/store` from the source machine. NixOS will rebuild it from cache.nixos.org.
-- Don't try to preserve the multi-user Nix daemon scaffolding (`nixbld1..32` users). NixOS handles that natively.
-- Don't copy `~/.cache/`, `~/.mozilla/`, browser profiles, etc. unless you want to — those are user-data decisions, not migration decisions.
-- Don't worry about `/etc` modifications; the flake captures everything system-side that matters.
