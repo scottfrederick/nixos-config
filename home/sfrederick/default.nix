@@ -23,13 +23,11 @@
   # create activation conflicts with yadm's checkout.
   # ============================================================
 
-  # User-scoped packages that aren't system-wide
-  home.packages = with pkgs; [
-    yadm           # dotfiles manager — install first, then `yadm clone ...`
-    # User-installed tools that yadm only stores config for (not the binaries):
-    # SDKMAN, cargo, krew, go, zig, JetBrains Toolbox are all installed by
-    # the user via their own installers (see MIGRATION_NOTES). Don't duplicate here.
-  ];
+  # User-scoped packages. Intentionally empty:
+  #   - yadm is installed system-wide via modules/base.nix; don't duplicate here.
+  #   - User-installed toolchains (SDKMAN, cargo, krew, go, zig, JetBrains Toolbox)
+  #     are installed by the user via their own installers (see MIGRATION_NOTES).
+  home.packages = [ ];
 
   programs.home-manager.enable = true;
 }
