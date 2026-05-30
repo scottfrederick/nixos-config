@@ -34,7 +34,24 @@
   programs.gnome-disks.enable = true;
   programs.evince.enable = true;
   # file-roller is now a plain package; install via environment.systemPackages.
-  environment.systemPackages = [ pkgs.file-roller ];
+  environment.systemPackages = with pkgs; [
+    file-roller
+
+    # Yaru theme/icons/cursor — selected via dconf in home/sfrederick/gnome.nix.
+    yaru-theme
+
+    # GNOME extension *code* (per-user enablement + settings live in
+    # home/sfrederick/gnome.nix). ubuntu-dock has no nixpkgs equivalent;
+    # dash-to-dock is its upstream and the reference machine's dock settings
+    # already live under the dash-to-dock dconf schema.
+    gnomeExtensions.tiling-shell
+    gnomeExtensions.caffeine
+    gnomeExtensions.weather-oclock
+    gnomeExtensions.spotify-controller
+    gnomeExtensions.extension-list
+    gnomeExtensions.tweaks-in-system-menu
+    gnomeExtensions.dash-to-dock
+  ];
 
   # Excluded apps the user is unlikely to want (Pop had them as defaults; drop on a fresh GNOME).
   environment.gnome.excludePackages = with pkgs; [
