@@ -2,6 +2,7 @@
 {
   imports = [
     ./programs.nix
+    ./gnome.nix
   ];
 
   home.username = "sfrederick";
