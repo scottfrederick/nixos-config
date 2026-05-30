@@ -92,7 +92,6 @@ in
       outer-gaps = mkUint32 2;
       cycle-layouts-backward = [ "<Shift>" ];
       window-use-custom-border-color = false;
-      last-version-name-installed = "17.0";
       selected-layouts = [ [ "10250844" "Layout 1" ] [ "10250844" "Layout 1" ] ];
       layouts-json = ''[{"id":"Layout 1","tiles":[{"x":0,"y":0,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0,"y":0.5,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[2,3]},{"x":0.78,"y":0,"width":0.22,"height":0.5,"groups":[3,4]},{"x":0.78,"y":0.5,"width":0.22,"height":0.5,"groups":[3,4]}]},{"id":"Layout 2","tiles":[{"x":0,"y":0,"width":0.22,"height":1,"groups":[1]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[1,2]},{"x":0.78,"y":0,"width":0.22,"height":1,"groups":[2]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]},{"id":"17354848","tiles":[{"x":0,"y":0,"width":1,"height":1,"groups":[]}]},{"id":"10250844","tiles":[{"x":0,"y":0,"width":0.5,"height":1,"groups":[1]},{"x":0.5,"y":0,"width":0.4999999999999998,"height":1,"groups":[1]}]}]'';
       overridden-settings = ''{"org.gnome.mutter.keybindings":{"toggle-tiled-right":"@as []","toggle-tiled-left":"@as []"},"org.gnome.desktop.wm.keybindings":{"maximize":"@as []","unmaximize":"@as []"},"org.gnome.mutter":{"edge-tiling":"false"}}'';
@@ -129,9 +128,9 @@ in
       extend-height = false;
       height-fraction = 0.64;
       icon-size-fixed = true;
+      intellihide = true;
       intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
       preferred-monitor = mkInt32 (-2);
-      preferred-monitor-by-connector = "DP-3";
       require-pressure-to-show = false;
       show-mounts = true;
       show-mounts-network = false;
