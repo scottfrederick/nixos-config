@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  inherit (lib.hm.gvariant) mkUint32;
+  inherit (lib.hm.gvariant) mkUint32 mkInt32;
 in
 {
   # ============================================================
@@ -100,9 +100,9 @@ in
 
     "org/gnome/shell/extensions/caffeine" = {
       cli-toggle = true;
-      countdown-timer = 0;
+      countdown-timer = mkInt32 0;
       enable-fullscreen = false;
-      indicator-position-max = 5;
+      indicator-position-max = mkInt32 5;
       restore-state = true;
       show-indicator = "only-active";
       toggle-state = true;
@@ -123,14 +123,14 @@ in
     "org/gnome/shell/extensions/dash-to-dock" = {
       apply-custom-theme = false;
       background-opacity = 0.8;
-      dash-max-icon-size = 56;
+      dash-max-icon-size = mkInt32 56;
       dock-fixed = false;
       dock-position = "BOTTOM";
       extend-height = false;
       height-fraction = 0.64;
       icon-size-fixed = true;
       intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
-      preferred-monitor = -2;
+      preferred-monitor = mkInt32 (-2);
       preferred-monitor-by-connector = "DP-3";
       require-pressure-to-show = false;
       show-mounts = true;
