@@ -176,3 +176,24 @@ Full report: `artifacts/validation-report.json`. Raw VM output: `artifacts/smoke
 - Real disk encryption / LUKS unlock at boot.
 - Printer auto-discovery via Avahi/CUPS.
 - USB / Bluetooth peripherals.
+
+## GNOME desktop matched to Ubuntu reference laptop (2026-05-30)
+
+The GNOME layer was re-derived from the Ubuntu 26.04 / GNOME Shell 50.1 laptop
+(replacing the original Pop!_OS-derived guesses). See
+`docs/superpowers/specs/2026-05-30-gnome-match-ubuntu-desktop-design.md`.
+
+- Theme: Yaru-dark (GTK + icons), Yaru cursor, prefer-dark; Ubuntu Sans fonts.
+- Extensions: GNOME-shipped set + third-party tilingshell, caffeine,
+  weatheroclock, spotify-controller, extension-list, tweaks-system-menu.
+- `ubuntu-dock` -> `dash-to-dock` (no nixpkgs ubuntu-dock; dash-to-dock is its
+  upstream and shares the dconf schema, so the dock settings carry over).
+- Dropped stale (enabled-but-uninstalled) extensions quick-settings-audio-panel
+  and system-monitor-next.
+- Dropped custom media-key bindings (ulauncher `<Super>z`, Zoom dbus hotkey) —
+  neither app is declared in this repo. Re-add under
+  `org/gnome/settings-daemon/plugins/media-keys` if those apps are installed.
+- All per-user GNOME state is declarative in `home/sfrederick/gnome.nix` via
+  `dconf.settings` (safe alongside yadm — writes the dconf DB, not dotfiles).
+- The IntelliJ favorite `.desktop` id is JetBrains-Toolbox-generated and will
+  need updating after IDEA is first launched on the NixOS host.
