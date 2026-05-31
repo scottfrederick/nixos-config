@@ -11,13 +11,11 @@
   services.xserver.enable = true;
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
-  # `gdm.wayland` removed in GNOME 50 (Wayland is the only supported mode now).
 
-  # Source: XKBLAYOUT=us, KEYMAP=us-acentos (US international with dead keys).
-  console.keyMap = "us-acentos";
+  console.keyMap = "us";
   services.xserver.xkb = {
     layout = "us";
-    variant = "intl";   # closest equivalent to us-acentos in X/Wayland
+    variant = "";
   };
 
   # Sound: PipeWire (NixOS default since 22.05; replaces PulseAudio).
@@ -37,13 +35,8 @@
   environment.systemPackages = with pkgs; [
     file-roller
 
-    # Yaru theme/icons/cursor — selected via dconf in home/sfrederick/gnome.nix.
     yaru-theme
 
-    # GNOME extension *code* (per-user enablement + settings live in
-    # home/sfrederick/gnome.nix). ubuntu-dock has no nixpkgs equivalent;
-    # dash-to-dock is its upstream and the reference machine's dock settings
-    # already live under the dash-to-dock dconf schema.
     gnomeExtensions.tiling-shell
     gnomeExtensions.caffeine
     gnomeExtensions.weather-oclock
@@ -53,7 +46,6 @@
     gnomeExtensions.dash-to-dock
   ];
 
-  # Excluded apps the user is unlikely to want (Pop had them as defaults; drop on a fresh GNOME).
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     epiphany       # GNOME Web — user has Brave (flatpak) instead

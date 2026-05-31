@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flox.url = "github:flox/flox";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:

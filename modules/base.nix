@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 {
   # ============================================================
   # System packages translated 1:1 from `apt-mark showmanual`
@@ -45,6 +45,7 @@
     vo-aacenc  # from apt: libvo-aacenc0
     vo-amrwbenc  # from apt: libvo-amrwbenc0
     wildmidi  # from apt: libwildmidi2
+    yadm  # from apt: yadm
     xxd  # from apt: xxd
     zbar  # from apt: libzbar0t64
     zsh  # from apt: zsh
@@ -67,6 +68,11 @@
     sushi  # REVIEW: explicit map suggested 'nautilus-sendto' but only fuzzy matc (from apt: nautilus-sendto)
 
     # ---- Always-on essentials (not from apt; common NixOS practice) ----
+    bash  # ensure bash is in the system profile; /bin/bash symlink below
+    pass  # password-store: standard-unix-password-manager
+    gnupg  # gpg cli
+    git-credential-manager  # cross-platform git credential helper
+    inputs.flox.packages.${pkgs.stdenv.hostPlatform.system}.default  # flox (github:flox/flox flake)
     git
     wget
     curl
@@ -136,4 +142,14 @@
   # CPU microcode (will only apply if matching CPU).
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # ------------------------------------------------------------
+  # /bin/bash — NixOS only provides /bin/sh (via environment.binsh)
+  # out of the box; there is no built-in option for /bin/bash. Create
+  # it declaratively as a tmpfiles symlink. "L+" forces replacement of
+  # any pre-existing path, and the rule is re-applied on activation/boot.
+  # ------------------------------------------------------------
+  systemd.tmpfiles.rules = [
+    "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
+  ];
 }
