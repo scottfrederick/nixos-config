@@ -48,17 +48,39 @@ lsblk -o NAME,SIZE,MODEL,TRAN,ROTA,SERIAL,MOUNTPOINTS
 Expected entries:
 - **WDC WD20JDRW** (1.8T, ROTA=1, TRAN=usb, serial `WD-WX32A958JEJJ`) →
   this is the **install target**.
-- **Generic Flash Disk** (29.3G, TRAN=usb, iso9660 mounted on
-  `/iso` and `/run/...`) → this is the installer. **Do NOT touch.**
-- Internal NVMe (whatever model the HP One has) → **Do NOT touch.**
+- **Generic Flash Disk** (29.3G, TRAN=usb, iso9660 mounted under
+  `/iso` or `/run/...`) → this is the installer. **Do NOT touch.**
+- **SK hynix PC711 NVMe** (953.9G, TRAN=nvme, serial
+  `ASB3N55381CA93J2I`) → this is the HP One's internal disk holding the
+  Pop install. Will likely show partitions `nvme0n1p1`/`nvme0n1p2`/
+  `nvme0n1p3` and possibly a `crypto_LUKS` entry. **Do NOT touch any
+  partition of this disk.** The live installer cannot mount the
+  encrypted LUKS volume without a password, so accidental writes are
+  unlikely, but the EFI partition and recovery partition are *not*
+  encrypted and could be written to. Just don't reference `nvme*`
+  anywhere in the install commands.
 
 Find the device name of the WD drive. Almost certainly `/dev/sda` since
 USB devices come up before NVMe, but **confirm** — the model column is
 authoritative, not the device name.
 
-**Send the lsblk output to Claude before proceeding**, or at minimum
-read it carefully yourself and make sure the WD drive's path is correct
-in the `DISK=` line below.
+**Self-verify before proceeding** (this Claude Code session does not
+follow you into the installer — it lives on the Pop terminal which is
+no longer running once you've rebooted):
+
+- The line with **`WDC WD20JDRW`** is the install target. Note the
+  device name (almost certainly `/dev/sda`).
+- The line with **`Flash Disk`** is the installer USB stick. Note its
+  device name (almost certainly `/dev/sdb`). Has `iso9660` filesystem
+  and a `nixos-graphical-26.05-x86_64` label. **Do NOT touch.**
+- There is no internal NVMe visible in the installer (this single HP One
+  machine has both the source Pop install AND is the install target; in
+  the live installer environment the Pop NVMe will show up but it's NOT
+  partitioned for us — it's `crypto_LUKS` and the `cryptdata` LV is
+  locked. Do NOT touch.)
+
+If the device names are not `sda` (WD HDD) and `sdb` (installer),
+substitute the right device in `DISK=/dev/sdX` in step D.
 
 ## D. Partition the WD drive
 
