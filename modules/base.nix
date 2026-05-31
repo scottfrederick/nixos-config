@@ -35,12 +35,10 @@
     noto-fonts-cjk-sans  # from apt: fonts-noto-cjk
     openal  # from apt: libopenal-data
     openh264  # from apt: libopenh264-7
-    pass  # from apt: pass
     python3  # from apt: python3.10
     sndio  # from apt: libsndio7.0
     soundtouch  # from apt: libsoundtouch1
     spandsp  # from apt: libspandsp2t64
-    timeshift  # from apt: timeshift
     totem  # from apt: totem
     vim  # from apt: vim
     vim-full  # from apt: vim-gtk3
@@ -48,7 +46,6 @@
     vo-amrwbenc  # from apt: libvo-amrwbenc0
     wildmidi  # from apt: libwildmidi2
     xxd  # from apt: xxd
-    yadm  # from apt: yadm
     zbar  # from apt: libzbar0t64
     zsh  # from apt: zsh
     zxing-cpp  # from apt: libzxing3
@@ -86,11 +83,8 @@
     pciutils
     usbutils
     dmidecode
-
-    # ---- Added 2026-05-23 to match what yadm bootstrap installs on Ubuntu ----
-    gnome-tweaks                # from yadm bootstrap 30-apt-core.sh apt/gnome.sh
-    vscode                      # from yadm bootstrap 40-apt-apps.sh apt/vscode.sh (unfree; allowUnfree already set)
-    git-credential-manager      # from yadm bootstrap 30-apt-core.sh apt/gcm.sh
+    gnome-tweaks
+    brave
   ];
 
   # ============================================================

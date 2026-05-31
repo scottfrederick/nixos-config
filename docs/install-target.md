@@ -199,6 +199,57 @@ If any of these surprise you, stop and capture output for Claude. Don't
 run `nixos-rebuild switch` yet — first iteration on this hardware should
 be a deliberate, verified step.
 
+## K. Updating the installation
+
+Once the USB system is installed and validated, you apply config changes
+by rebuilding the **same flake output** (`home-hpone-usb`) from a running
+copy of that system. You cannot update the USB install from the internal
+Pop!_OS disk — `nixos-rebuild switch` acts on the *running* system, so you
+must boot the target first.
+
+1. **Boot the USB system** — F9 (fallback F12/Esc) at power-on → WD USB HDD
+   → systemd-boot → `NixOS - Default`. Log in as `sfrederick` and confirm:
+
+   ```sh
+   hostname    # expect: home-hpone-usb
+   ```
+
+2. **Get the latest config onto the USB system.** The repo must live in the
+   USB system's filesystem. First time:
+
+   ```sh
+   git clone <repo-url> ~/Projects/nixos-config
+   ```
+
+   Afterwards, pull your latest changes:
+
+   ```sh
+   cd ~/Projects/nixos-config && git pull
+   ```
+
+   > Uncommitted working-tree edits made on another machine do **not** travel
+   > with `git pull` — commit them (or copy the files across) so the USB
+   > system actually sees them.
+
+3. **Rebuild against the USB flake output:**
+
+   ```sh
+   cd ~/Projects/nixos-config
+   sudo nixos-rebuild switch --flake .#home-hpone-usb
+   ```
+
+   `switch` builds the new generation and activates it immediately; a new
+   entry also appears in the systemd-boot menu. On the spinning USB HDD this
+   is **slow** (downloads + per-store-path linking) — be patient.
+
+**Critical:** always use the `.#home-hpone-usb` attribute, never
+`.#home-hpone`. The USB variant (`hosts/home-hpone/external.nix`) sets
+`canTouchEfiVariables = lib.mkForce false` and forces USB initrd drivers.
+Rebuilding the internal `home-hpone` output onto this drive would try to
+write a firmware EFI entry, leaving a stale boot entry once the drive is
+unplugged. Keep booting via F9 every time — by design this drive never
+registers itself in the firmware boot order.
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
