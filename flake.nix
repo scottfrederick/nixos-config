@@ -2,9 +2,9 @@
   description = "sfrederick's NixOS configurations (home-hpone + work-dell)";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -37,6 +37,12 @@
         # Adds autologin + a oneshot smoketest service that writes /tmp/xchg/smoketest.txt
         # and powers off. NOT for daily use.
         home-hpone-smoketest = mkHost ./hosts/home-hpone/vm-smoketest.nix;
+
+        # home-hpone-usb: same config as home-hpone, but configured to boot from
+        # an external USB drive (canTouchEfiVariables=false, USB modules in initrd,
+        # distinct hostname). Use this to try-before-you-commit on the real
+        # hardware without disturbing the source Pop install on the internal disk.
+        home-hpone-usb = mkHost ./hosts/home-hpone/external.nix;
       };
     };
 }
