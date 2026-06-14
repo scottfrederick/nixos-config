@@ -22,5 +22,15 @@
     curl
     expat
     libxml2
+
+    # X11 client libs: the JetBrains Toolbox bundled JRE links libawt_xawt.so
+    # against these to draw its window. Missing them makes Toolbox launch but
+    # show no window (AWTError: Failed to initialize the window toolkit:
+    # libX11.so.6: cannot open shared object file).
+    xorg.libX11
+    xorg.libXext
+    xorg.libXi
+    xorg.libXrender
+    xorg.libXtst
   ];
 }
