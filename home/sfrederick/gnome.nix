@@ -77,7 +77,11 @@ in
         "com.slack.Slack.desktop"
         "brave-browser.desktop"
         "com.mitchellh.ghostty.desktop"
-        "jetbrains-idea-0e3cda8e-27ff-4d69-81eb-da0afdc58281.desktop"
+        # NOTE: Toolbox regenerates this UUID whenever IntelliJ is
+        # reinstalled, so it drifts from whatever is in ~/.local/share/
+        # applications. Re-check with `ls ~/.local/share/applications |
+        # grep jetbrains-idea` after a reinstall.
+        "jetbrains-idea-eec2b4da-1b75-4a10-a43c-83bc00ccf981.desktop"
         "org.gnome.Nautilus.desktop"
         "net.cozic.joplin_desktop.desktop"
         "1password.desktop"
