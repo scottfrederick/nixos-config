@@ -71,7 +71,8 @@
     bash  # ensure bash is in the system profile; /bin/bash symlink below
     pass  # password-store: standard-unix-password-manager
     gnupg  # gpg cli
-    git-credential-manager  # cross-platform git credential helper
+    pinentry-gnome3  
+    git-credential-manager
     inputs.flox.packages.${pkgs.stdenv.hostPlatform.system}.default  # flox (github:flox/flox flake)
     git
     wget
