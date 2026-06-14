@@ -70,6 +70,7 @@ in
         "spotify-controller@narkagni"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org"
         "dash-to-dock@micxgx.gmail.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
       ];
       favorite-apps = [
         "org.ferdium.Ferdium.desktop"

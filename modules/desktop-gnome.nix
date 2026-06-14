@@ -44,6 +44,7 @@
     gnomeExtensions.extension-list
     gnomeExtensions.tweaks-in-system-menu
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.appindicator   # system tray for apps like JetBrains Toolbox
   ];
 
   environment.gnome.excludePackages = with pkgs; [

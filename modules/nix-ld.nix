@@ -32,5 +32,23 @@
     libxi
     libxrender
     libxtst
+
+    # Font rendering: the bundled JRE's libfontmanager.so links against
+    # libfreetype.so.6 (and fontconfig). Without these, the tray icon shows
+    # but opening the Toolbox widget silently fails with:
+    #   UnsatisfiedLinkError: .../jre/lib/libfontmanager.so:
+    #   libfreetype.so.6: cannot open shared object file
+    # (thrown while initializing the AWT X11GraphicsEnvironment).
+    freetype
+    fontconfig
+
+    # GPU rendering: Toolbox's UI is Compose/Skia (libskiko-linux-x64.so),
+    # which links against libGL.so.1 to paint its window. Without it the
+    # tray icon and the AWT graphics init both succeed, but opening the
+    # widget silently fails (the window entity is created, then painting
+    # throws and nothing is shown):
+    #   UnsatisfiedLinkError: .../bin/libskiko-linux-x64.so:
+    #   libGL.so.1: cannot open shared object file
+    libGL
   ];
 }
