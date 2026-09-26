@@ -8,6 +8,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flox.url = "github:flox/flox";
+
+    # Claude Desktop for Linux — community flake wrapping Anthropic's
+    # official Linux .deb. Used only by home-hpone (see modules/claude-desktop.nix).
+    claude-desktop = {
+      url = "github:poeck/claude-desktop-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:

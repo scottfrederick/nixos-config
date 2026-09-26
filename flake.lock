@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "claude-desktop": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790339977,
+        "narHash": "sha256-vCK52JHArdOrkPA64UC4uIDKaFs30Db8zxuWAzlFglA=",
+        "owner": "poeck",
+        "repo": "claude-desktop-nix-flake",
+        "rev": "0dbeb9ab60358c78d310f6df48cce6fd76530cb7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "poeck",
+        "repo": "claude-desktop-nix-flake",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1774313767,
@@ -174,6 +194,7 @@
     },
     "root": {
       "inputs": {
+        "claude-desktop": "claude-desktop",
         "flox": "flox",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2"

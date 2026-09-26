@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
+    ../../modules/claude-desktop.nix   # Claude Desktop — this host only
   ];
 
   networking.hostName = "home-hpone";
