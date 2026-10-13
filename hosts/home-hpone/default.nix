@@ -9,6 +9,7 @@
     ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/claude-desktop.nix   # Claude Desktop — this host only
+    ../../modules/astro.nix            # PSS + ImPPG — this host only
   ];
 
   networking.hostName = "home-hpone";
