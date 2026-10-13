@@ -20,11 +20,4 @@
   imports = [ inputs.claude-desktop.nixosModules.default ];
 
   programs.claude-desktop.enable = true;
-
-  nix.settings = {
-    substituters = [ "https://claude-desktop.cachix.org" ];
-    trusted-public-keys = [
-      "claude-desktop.cachix.org-1:Yx8g/hMizTX+Hd7X6+deGjrmYWLzOI57BFDqp0GXBTk="
-    ];
-  };
 }
