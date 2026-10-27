@@ -79,6 +79,11 @@ python3Packages.buildPythonApplication {
   postInstall = ''
     install -Dm644 planetary_system_stacker/PSS-Icon-64.png \
       $out/share/icons/hicolor/64x64/apps/planetary-system-stacker.png
+
+    # Batch helper: select ASIAIR clips by exposure/gain, stack them with PSS's
+    # command-line mode, then apply PSS's automatic RGB alignment. Installed in
+    # $out/bin so wrapPythonPrograms gives it PSS's Python environment.
+    install -Dm755 ${./pss-batch.py} $out/bin/pss-batch
   '';
 
   meta = {
