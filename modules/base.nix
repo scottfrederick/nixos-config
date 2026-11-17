@@ -31,6 +31,7 @@
     multipath-tools  # from apt: kpartx
     nautilus  # from apt: nautilus
     neon  # from apt: libneon27t64
+    nodejs
     noto-fonts  # from apt: fonts-noto-ui-core
     noto-fonts-cjk-sans  # from apt: fonts-noto-cjk
     openal  # from apt: libopenal-data
