@@ -64,7 +64,7 @@ Per-user (`home/sfrederick/`):
 System level:
 - **dconf snapshot** at `artifacts/raw/desktop_dconf.ini` (66 GNOME-app sections from Pop's GNOME fallback apps). Apply selectively via `programs.dconf` or `dconf load / < ...` after first login.
 - **Keymap us-acentos** — translated to console + X/Wayland us+intl. Verify dead-key behavior matches what you had on Pop.
-- **Timezone** — set to `America/Denver` in `modules/locale.nix`; source system's TZ wasn't captured in the inventory. Confirm or change.
+- **Timezone** — set to `America/Chicago` (Central) in `modules/locale.nix`.
 - **Supported locales** — only en_US.UTF-8 active. 10 other locales commented out in `modules/locale.nix`; uncomment any you actually want.
 
 apt-package translations with fuzzy matches (in `modules/base.nix` with `# REVIEW:` comments):
