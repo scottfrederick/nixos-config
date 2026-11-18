@@ -4,7 +4,7 @@
   # Locale & time. Source: en_US.UTF-8; timezone was unrecorded
   # in inventory — REVIEW: set yours.
   # ============================================================
-  time.timeZone = "America/Denver";   # TODO: confirm timezone for the new machine
+  time.timeZone = "America/Chicago";
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
